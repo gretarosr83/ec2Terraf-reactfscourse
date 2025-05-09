@@ -10,11 +10,6 @@ terraform {
 provider "aws" {
     profile = "default"
     region = "us-east-1"
-    # ec2-user access_key
-    # access_key= 
-    # secret_key= 
-   
-
 }
 
 resource "tls_private_key" "rsa_4096" {
@@ -39,8 +34,6 @@ resource "aws_instance" "demo_instance" {
     ami = "${lookup(var.amis,var.region)}"
     instance_type = "t2.micro"
     key_name = aws_key_pair.key_pair.key_name
-    # key_name = "demoKeyPair"
-    # vpc_security_group_ids = ["sg-0d85898e4dbb0c7d2"]
 
     tags = {
       Name= "reactapp_fscourse"
@@ -58,6 +51,15 @@ provisioner "file" {
             "sudo /tmp/task.sh" #command to execute the file
          ]
     }
+
+      # SSH Configuration
+    connection {
+      host = "${aws_instance.demo_instance.public_ip}"
+      user = "ubuntu"
+      # private_key = "${file("${var.private_key_path}")}"
+      private_key = "${file("${aws_key_pair.key_pair.key_name}")}"
+    }
+
 
 }
 # locals {
