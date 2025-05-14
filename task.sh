@@ -48,7 +48,7 @@
                 
                     # LINUX & UBUNTU
                     cd /home/ec2-user/react-app
-                    sudo rm -f package-lock.json #removing package-lock.json
+                    # sudo rm -f package-lock.json #removing package-lock.json
                     sudo apt install npm -y  
                     sudo npm install
                     npm run build
